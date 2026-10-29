@@ -35,14 +35,14 @@ public static class TaskManagerScoring
             && response.AltitudeFeet == update.AltitudeFeet
             && response.HeadingDegrees == update.HeadingDegrees
             && response.SpeedKnots == update.SpeedKnots) * 100d / updateList.Length;
-        var primarySpeed = AverageSpeed(updateList.Select(update =>
+        var primarySpeed = AverageSpeed(updateList.Select<PrimaryUpdateEvent, TimeSpan?>(update =>
             updateResponseMap.TryGetValue(update.Id, out var response)
                 && response.RespondedAt.HasValue
                 && !response.Expired
                 && response.RespondedAt.Value >= update.ArrivesAt
                 && response.RespondedAt.Value <= update.ExpiresAt
                 ? response.RespondedAt.Value - update.ArrivesAt
-                : null), PrimaryUpdateExpiry);
+                : null), TaskManagerEventGenerator.PrimaryUpdateExpiry);
 
         var alertAccuracy = alertList.Length == 0 ? 0d : alertList.Count(alert =>
             alertResponseMap.TryGetValue(alert.Id, out var response)
@@ -50,14 +50,14 @@ public static class TaskManagerScoring
             && response.AcknowledgedAt.HasValue
             && response.AcknowledgedAt.Value >= alert.ArrivesAt
             && response.AcknowledgedAt.Value <= alert.ExpiresAt) * 100d / alertList.Length;
-        var alertSpeed = AverageSpeed(alertList.Select(alert =>
+        var alertSpeed = AverageSpeed(alertList.Select<AlertEvent, TimeSpan?>(alert =>
             alertResponseMap.TryGetValue(alert.Id, out var response)
                 && response.AcknowledgedAt.HasValue
                 && !response.Expired
                 && response.AcknowledgedAt.Value >= alert.ArrivesAt
                 && response.AcknowledgedAt.Value <= alert.ExpiresAt
                 ? response.AcknowledgedAt.Value - alert.ArrivesAt
-                : null), AlertExpiry);
+                : null), TaskManagerEventGenerator.AlertExpiry);
 
         var primaryScore = primaryAccuracy * PrimaryAccuracyWeight + primarySpeed * PrimarySpeedWeight;
         var alertScore = alertAccuracy * AlertAccuracyWeight + alertSpeed * AlertSpeedWeight;

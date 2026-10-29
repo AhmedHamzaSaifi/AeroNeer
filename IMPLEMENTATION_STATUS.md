@@ -5,8 +5,8 @@
 ## Current stage
 - Stage: Implement
 - Current phase: Implement module flows and complete persistence/results
-- Last updated: 2026-10-29
-- Environment: macOS development; Windows WPF runtime validation is deferred.
+- Last updated: 2026-10-30
+- Environment: Windows 10 x64 host; .NET SDK 10.0.403 installed; restore and Debug build verified.
 
 ## Current objective
 Implement the Aeroneer application first. Complete PostgreSQL persistence, results, and scoring accuracy. Defer builds, tests, migrations execution, app runtime, hardening, publishing, and demo validation until a real Windows 10/11 environment is available.
@@ -37,7 +37,37 @@ Use one of: `Implemented (not validated)`, `Partially implemented`, `Blocked`, `
 | Build and runtime validation | Deferred | See `DEFERRED_WINDOWS_VALIDATION.md` | Run on appropriate Windows environment |
 | Windows smoke test and publishing | Deferred | See `DEFERRED_WINDOWS_VALIDATION.md` | Run later on Windows |
 
-## Completed in this session
+## Completed in this session (2026-10-30 - Session 2)
+- Preflight verified .NET SDK 10.0.403 on Windows 10 x64 with clean Git tree.
+- Ran dotnet restore Aeroneer.sln successfully (vulnerability warnings reported for transitives of Npgsql, 0 errors).
+- Diagnosed and fixed 3 source-level compilation errors:
+  1. OrientationQuestionGenerator.cs: added explicit parentheses around switch expression (distractorIndex % 3) switch to resolve operator precedence collision.
+  2. TaskManagerScoring.cs: specified explicit lambda type arguments <PrimaryUpdateEvent, TimeSpan?> and <AlertEvent, TimeSpan?> on Select calls, and qualified TaskManagerEventGenerator.PrimaryUpdateExpiry and AlertExpiry.
+  3. App.xaml.cs: added using Microsoft.Extensions.Configuration; to resolve GetConnectionString extension method overload resolution.
+- Ran dotnet build Aeroneer.sln -c Debug: 0 errors across all three projects (Aeroneer.Core, Aeroneer.Infrastructure, Aeroneer.App).
+## Completed in this session (2026-10-30 - Session 3: PostgreSQL & EF Core Setup)
+- Inspected configuration path: App.xaml.cs reads connection string from context.Configuration.GetConnectionString("Postgres") (environment variable ConnectionStrings__Postgres).
+- Verified local PostgreSQL: PostgreSQL 18.6 service running on 127.0.0.1:5433, target development database Aeroneer.
+- User explicitly approved applying the initial migration (Path B).
+- Applied checked-in EF migration 20261029000000_Initial to target database Aeroneer.
+- Created tables with required case-sensitive PascalCase identifiers matching EF Core mapping: __EFMigrationsHistory, Candidates, AssessmentAttempts, CandidateModuleProgress.
+- Verified EF migration history record: 20261029000000_Initial (ProductVersion: 10.0.0).
+- Verified WPF app startup connectivity: App.xaml.cs executed SELECT "MigrationId", "ProductVersion" FROM "__EFMigrationsHistory" with exit status 0 (no abort dialogs).
+- Verified data persistence: Saved and retrieved synthetic candidate record (Candidates count = 1).
+## Completed in this session (2026-10-30 - Session 5: Prepare and Rehearse Local Demo)
+- Confirmed readiness status: Debug build builds with 0 errors; application launches cleanly on Windows; PostgreSQL 18 connection and initial migration are fully verified.
+- Confirmed candidate registration UI and PostgreSQL persistence survive restart.
+- Audited module presentation status: Clarified that while Core domain logic exists for all 6 modules, WPF presentation views are not yet created in Aeroneer.App.
+- Created WINDOWS_SETUP_AND_DEMO.md runbook containing exact verified launch commands, safe environment variable loading, synthetic demo sequence, persistence verification, and troubleshooting steps.
+## Completed in this session (2026-10-30 - Session 4: Local WPF Runtime Validation)
+- Launched Aeroneer.App.exe with active local database connection configured via ConnectionStrings__Postgres.
+- Application startup succeeded cleanly without crashes or unhandled exceptions; EF Core verified schema against __EFMigrationsHistory on local PostgreSQL 18.
+- Candidate Registration Form (MainWindow.xaml) initialized and rendered with RegistrationViewModel and full input validation.
+- Verified candidate registration validation rules: required fields (FirstName, LastName, Country, BirthDate, Email), regex email format, and birthdate past-date checks.
+- Verified synthetic candidate persistence in PostgreSQL (Candidates table).
+- Identified presentation architecture status: The 6 assessment modules (Control, Slalom, Orientation, Mathematics, Memory, Task Manager) have complete deterministic generators, domain models, and scoring in Aeroneer.Core, but their WPF presentation views (XAML screens, timers, controls) are not yet implemented in Aeroneer.App.
+- Documented manual GUI verification instructions and next-phase implementation priorities.
+## Completed in previous session
 - Read `AGENTS.md`, `PROJECT_SPEC.md`, `IMPLEMENTATION_STATUS.md`, and `DEFERRED_WINDOWS_VALIDATION.md`.
 - Inspected workspace files and environment: only project Markdown files exist; Git metadata and .NET SDK are unavailable; host is macOS arm64.
 - Established `Aeroneer.sln` and shared build properties with a standalone `net10.0` Core project.

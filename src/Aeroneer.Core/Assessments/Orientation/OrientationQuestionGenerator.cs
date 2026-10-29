@@ -34,7 +34,7 @@ public sealed class OrientationQuestionGenerator
                 continue;
             }
 
-            var distractor = distractorIndex % 3 switch
+            var distractor = (distractorIndex % 3) switch
             {
                 0 => correctSymbol with { BeaconBearingDegrees = Normalize(absoluteBeaconBearing + 90 + _random.Next(180)) },
                 1 => correctSymbol with { PitchDegrees = pitch < 15 ? pitch + 1 : pitch - 1 },

@@ -11,3 +11,8 @@ TestResults/
 artifacts/
 .idea/
 .vscode/
+
+appsettings*.Development.json
+appsettings*.local.json
+
+appsettings.json
