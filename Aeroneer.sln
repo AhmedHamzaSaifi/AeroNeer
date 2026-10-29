@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeroneer.Core", "src\Aeroneer.Core\Aeroneer.Core.csproj", "{8A405FE0-8AD6-4927-97E2-57F0F6E23173}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aeroneer.Infrastructure", "src\Aeroneer.Infrastructure\Aeroneer.Infrastructure.csproj", "{16EDAC78-1523-4EAF-BEA4-CF9B8C18D0D0}"
+EndProject
+Project("{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548}") = "Aeroneer.App", "src\Aeroneer.App\Aeroneer.App.csproj", "{7C872FBD-CDF9-4FAF-83B7-1EBB31912D1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A405FE0-8AD6-4927-97E2-57F0F6E23173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A405FE0-8AD6-4927-97E2-57F0F6E23173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A405FE0-8AD6-4927-97E2-57F0F6E23173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A405FE0-8AD6-4927-97E2-57F0F6E23173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16EDAC78-1523-4EAF-BEA4-CF9B8C18D0D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16EDAC78-1523-4EAF-BEA4-CF9B8C18D0D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16EDAC78-1523-4EAF-BEA4-CF9B8C18D0D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16EDAC78-1523-4EAF-BEA4-CF9B8C18D0D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C872FBD-CDF9-4FAF-83B7-1EBB31912D1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C872FBD-CDF9-4FAF-83B7-1EBB31912D1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C872FBD-CDF9-4FAF-83B7-1EBB31912D1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C872FBD-CDF9-4FAF-83B7-1EBB31912D1F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
